@@ -6,7 +6,7 @@ Please write a program in C that acts as a mini-shell:
 * It reads one line from standard input, parsing it to get the first
   space-separated argument
 
-* It executes the program, searching it in PATH evnironment variable if
+* It executes the program, searching it in PATH environment variable if
   no path was given.  The rest of the input line should be properly
   passed as arguments to that program.
 
@@ -41,7 +41,7 @@ Output: halb
 
 
 You are free to use up to the latest C standard (C11) and all
-facicilities included in the standard C library and POSIX.
+facilities included in the standard C library and POSIX.
 
 You should deliver the code to us regardless of the amount of
 completion. Please write a list of follow-up tasks with comments
