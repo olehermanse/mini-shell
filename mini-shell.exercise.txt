@@ -1,0 +1,57 @@
+mini-shell
+
+
+Please write a program in C that acts as a mini-shell:
+
+* It reads one line from standard input, parsing it to get the first
+  space-separated argument
+
+* It executes the program, searching it in PATH evnironment variable if
+  no path was given.  The rest of the input line should be properly
+  passed as arguments to that program.
+
+* It prints the program's output to standard output and errors to
+  standard error.
+
+* It reads the next line from standard input, and so on...
+
+* It exits on the special command "exit".
+
+
+Example shell input: /bin/echo blah
+Output: blah
+
+
+Optional BONUS functionality:
+
+* Implement character '|': multiple commands can be separated
+  using the '|' character, which means that the standard output
+  of the command to the left is fed to the standard input of the
+  command to the right.
+
+Example shell input: echo blah | rev
+Output: halb
+
+
+* Implement character '&': if the ampersand character is used at
+  the end of the input line, then the program is executed and
+  immediately placed in the background, and mini-shell is ready
+  to execute another command.
+
+
+
+You are free to use up to the latest C standard (C11) and all
+facicilities included in the standard C library and POSIX.
+
+You should deliver the code to us regardless of the amount of
+completion. Please write a list of follow-up tasks with comments
+on the next steps that would have to be taken, in order for you
+to be fully confident that the mini-shell is 100% complete and
+reliable.
+
+Code portability and clarity are important. Be prepared to
+describe your program to us and discuss about potential issues,
+future improvements, performance enhancements etc.
+
+
+Good Luck!
