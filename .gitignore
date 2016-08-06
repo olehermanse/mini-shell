@@ -1,2 +1,6 @@
 .DS_Store
 bin/*
+legacy/*
+.d/*
+obj/*
+legacy/*
