@@ -47,8 +47,8 @@ char** parseString(char* buffer){
 
 int main(int argc, char** argv){
     int bufferSize = 255;
-    char buffer[bufferSize];
-    long result = 1;
+    char* buffer = (char*)(malloc(sizeof(char)*bufferSize));
+    char* result = buffer;
     char* user = NULL;
     int cmdCounter = 0;
 
@@ -56,20 +56,24 @@ int main(int argc, char** argv){
     user = (char*)malloc(strlen(buffer)+1);
     assert(user);
     strcpy(user, buffer);
-
     while(result){
         printf("%s@mini-shell %i> ", user, cmdCounter);
-        result = (long)fgets(buffer, bufferSize, stdin);
+        result = fgets(buffer, bufferSize, stdin);
         if(buffer[0] != 0){
             char** words = parseString(buffer);
             for(int i = 0; words[i] != 0; ++i){
                 printf("'%s'\n", words[i]);
             }
             free((void**)(words));
-            result = 1;
+            words = NULL;
         }
         ++cmdCounter;
     }
+    free(buffer);
+    buffer = NULL;
+    result = NULL;
     free(user);
+    user = NULL;
+    printf("Exiting!");
     return 0;
 }

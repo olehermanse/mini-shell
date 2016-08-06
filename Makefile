@@ -57,7 +57,10 @@ clean:
 	mkdir bin
 	mkdir obj
 
-.PHONY: clean run debug release
+valgrind: debug
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./bin/mini-shell
+
+.PHONY: clean run debug release valgrind
 
 $(DEPDIR)/%.d: ;
 .PRECIOUS: $(DEPDIR)/%.d bin/mini-shell
