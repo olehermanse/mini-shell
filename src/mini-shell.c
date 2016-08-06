@@ -31,6 +31,6 @@ int main(int argc, char** argv){
         }
         ++cmdCounter;
     }
-    printf("Hello Shell!\n");
+    free(user);
     return 0;
 }
