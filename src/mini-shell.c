@@ -32,8 +32,11 @@ int main(int argc, char** argv){
         if(buffer[0] != 0){
             // Parse and process string input
             char** words = splitString(buffer, " \t\n\v\f\r");
-            for(int i = 0; words[i] != 0; ++i){
-                printf("'%s'\n", words[i]);
+            int cmdResult = processBuiltinCmd(words);
+            if(cmdResult == STATUS_UNRECOGNIZED){
+
+            }else if(cmdResult == STATUS_EXIT){
+                result = 0;
             }
             free((void**)(words));
             words = NULL;
@@ -43,6 +46,6 @@ int main(int argc, char** argv){
     }
     free(user);
     user = NULL;
-    printf("Exiting!");
+    printf("Goodbye!\n");
     return 0;
 }
