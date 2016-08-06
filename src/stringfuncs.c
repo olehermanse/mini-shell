@@ -38,6 +38,16 @@ char** strcpyArray(char** strings){
     return newArray;
 }
 
+// Counts words in null terminated array(/pointer)
+// Return: count of words(excluding null terminator)
+int wordCount(char** words){
+    int count = 0;
+    while(words[count]){
+        ++count;
+    }
+    return count;
+}
+
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)

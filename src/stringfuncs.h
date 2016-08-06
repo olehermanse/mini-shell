@@ -13,6 +13,10 @@ void ** freeArray(void ** pointerArray);
 // mallocs: all strings as well as array.
 char** strcpyArray(char** strings);
 
+// Counts words in null terminated array(/pointer)
+// Return: count of words(excluding null terminator)
+int wordCount(char** words);
+
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)

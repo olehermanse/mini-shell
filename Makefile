@@ -40,12 +40,12 @@ bin/mini-shell: $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES)
 
 obj/%.o: src/%.c
-obj/%.o: src/%.c $(DEPDIR)/%.d
+obj/%.o: src/%.c $(wildcard src/*.h) $(DEPDIR)/%.d
 	$(COMPILE) $(OUTPUT_OPTION) $<
 	$(POSTCOMPILE)
 
 obj/%.o: src/*/%.c
-obj/%.o: src/*/%.c $(DEPDIR)/%.d
+obj/%.o: src/*/%.c $(wildcard src/*/*.h) $(DEPDIR)/%.d
 	#$(CC) -c -Wall $< -o $@
 	$(COMPILE) $(OUTPUT_OPTION) $<
 	$(POSTCOMPILE)

@@ -29,6 +29,8 @@
 #define BOOL char
 #endif
 
+typedef enum { false=0, true=1 } bool;
+
 
 typedef enum {  BI_NONE, BI_CHDIR, BI_EXIT }         builtinCmd;
 
