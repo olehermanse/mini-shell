@@ -20,10 +20,10 @@ CFLAGS = -O2 -std=c99
 C_FILES = $(wildcard src/*.c) $(wildcard src/*/*.c)
 OBJ_FILES = $(addprefix obj/, $(notdir $(C_FILES:.c=.o)))
 
-debug: CFLAGS = $(DBGFLAGS)
+debug: CFLAGS += $(DBGFLAGS)
 debug: bin/mini-shell
 
-release: CFLAGS = $(RELFLAGS)
+release: CFLAGS += $(RELFLAGS)
 release: bin/mini-shell
 
 # Compile command includes gcc flags for dependency generation:
@@ -41,7 +41,6 @@ bin/mini-shell: $(OBJ_FILES)
 
 obj/%.o: src/%.c
 obj/%.o: src/%.c $(DEPDIR)/%.d
-	#$(CC) -c -Wall $< -o $@
 	$(COMPILE) $(OUTPUT_OPTION) $<
 	$(POSTCOMPILE)
 
