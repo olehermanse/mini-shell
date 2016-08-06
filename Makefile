@@ -13,7 +13,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
 
 DBGFLAGS = -Wall -D DEBUG -g
 RELFLAGS = -D NDEBUG -g
-CFLAGS = -O2
+CFLAGS = -O2 -std=c99
 
 
 # List of .c and .o files:
