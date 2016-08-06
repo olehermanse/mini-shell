@@ -1,77 +1,46 @@
 #include "mini-shell.h"
 
-void ** freeArray(void ** pointerArray){
-    assert(pointerArray);
-    for( int i = 0; pointerArray[i] != 0; ++i){
-        free(pointerArray[i]);
-        pointerArray[i] = 0;
-    }
-    free(pointerArray);
-    pointerArray = 0;
-    return pointerArray;
-}
-
-char** strcpyArray(char** strings){
-    int count = 0;
-    while(strings[count++]);
-    char** newArray = malloc(sizeof(char*)*count);
-    count = 0;
-    while(strings[count]){
-        newArray[count] = malloc(sizeof(char)*(1+strlen(strings[count])));
-        strcpy(newArray[count], strings[count]);
-        ++count;
-    }
-    newArray[count] = 0;
-    return newArray;
-}
-
-char** parseString(char* buffer){
-    char* tokens[32];
-    int index = 0;
-    const char sep[] = " \t\n\v\f\r";
-    char* token = strtok(buffer, sep);
-    while(token){
-        tokens[index++] = token;
-        token = strtok(NULL, sep);
-    }
-    tokens[index++] = NULL;
-    char** returnTokens = malloc(sizeof(char*)*index);
-    index = 0;
-    while(tokens[index]){
-        returnTokens[index] = tokens[index];
-        ++index;
-    }
-    returnTokens[index] = NULL;
-    return returnTokens;
-}
-
+// Main function sets up permanent variables and runs a main loop
+// prompting for and processing input from stdin
 int main(int argc, char** argv){
-    int bufferSize = 255;
-    char* buffer = (char*)(malloc(sizeof(char)*bufferSize));
-    char* result = buffer;
-    char* user = NULL;
-    int cmdCounter = 0;
+    // Main buffer used for input:
+    const int MAX_INPUT_SIZE = 255;
+    char buffer[MAX_INPUT_SIZE];
 
+    // Get username from environment variable:
+    char* user = NULL;
     strcpy(buffer,getenv("USER"));
     user = (char*)malloc(strlen(buffer)+1);
     assert(user);
     strcpy(user, buffer);
+
+    // Return value from fgets (check for EOF/error):
+    char* result = buffer;
+
+    // Count # of commands entered (i.e. number of enter presses):
+    int cmdCounter = 0;
+
+    // Main program loop:
     while(result){
+        // Print prompt with username and increasing command count:
         printf("%s@mini-shell %i> ", user, cmdCounter);
-        result = fgets(buffer, bufferSize, stdin);
+
+        // Store user input in buffer before parsing:
+        result = fgets(buffer, MAX_INPUT_SIZE, stdin);
+
+        // Check for content to parse:
         if(buffer[0] != 0){
-            char** words = parseString(buffer);
+            // Parse and process string input
+            char** words = splitString(buffer, " \t\n\v\f\r");
             for(int i = 0; words[i] != 0; ++i){
                 printf("'%s'\n", words[i]);
             }
             free((void**)(words));
             words = NULL;
         }
+
         ++cmdCounter;
     }
-    free(buffer);
-    buffer = NULL;
-    result = NULL;
     free(user);
     user = NULL;
     printf("Exiting!");
