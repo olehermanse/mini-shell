@@ -51,9 +51,6 @@ obj/%.o: src/*/%.c $(DEPDIR)/%.d
 	$(COMPILE) $(OUTPUT_OPTION) $<
 	$(POSTCOMPILE)
 
-# Can be used to print variable: "make print-COMPILE"
-print-%  : ; @echo $* = $($*)
-
 clean:
 	rm -rf bin
 	rm -rf obj

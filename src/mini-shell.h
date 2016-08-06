@@ -12,4 +12,20 @@
 #include <time.h>
 #include <assert.h>
 
+#ifndef NULL
+#define NULL 0
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef BOOL
+#define BOOL char
+#endif
+
 #endif // __MINI_SHELL__
