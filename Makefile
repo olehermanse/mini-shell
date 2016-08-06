@@ -57,7 +57,7 @@ clean:
 	mkdir obj
 
 valgrind: debug
-	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all ./bin/mini-shell
+	valgrind --tool=memcheck --leak-check=full ./bin/mini-shell
 
 .PHONY: clean run debug release valgrind
 
