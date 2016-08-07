@@ -6,7 +6,7 @@
 int processCmd(char* buffer, char* envp[], int* fds){
     assert(buffer);
 
-    char** argv = splitString(buffer, " \t\n\v\f\r");
+    char** argv = splitString(buffer, " \t\n\v\f\r", "\"\'");
     int num = wordCount(argv);
     if(num == 0){
         free(argv);
@@ -29,7 +29,7 @@ int processCmd(char* buffer, char* envp[], int* fds){
 // return: returnStatus
 int pipeCmds(char* buffer, char* envp[]){
     /*int newlines = */strReplace(buffer, '\n', 0);
-    char** commands = splitString(buffer, "|");
+    char** commands = splitString(buffer, "|", "");
     int num = wordCount(commands);
 
     // No command, do nothing:
