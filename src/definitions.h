@@ -9,9 +9,9 @@
 #include <sys/stat.h>   // stat()
 #include <stdbool.h>    // bool
 //#include <ctype.h>
-//#include <sys/types.h>
+#include <sys/types.h>  // pid_t
 
-#include <sys/wait.h>   // waitpid(), pid_t
+#include <sys/wait.h>   // waitpid(),
 //#include <time.h>
 #include <assert.h>     // assert()
 
