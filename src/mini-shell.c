@@ -43,8 +43,7 @@ int main(int argc, char** argv, char *envp[]){
 
     // Count # of commands entered (i.e. number of enter presses):
     int cmdCounter = 0;
-    bool eof = false;
-
+    
     // Main program loop:
     while(result){
         // Print prompt with username and increasing command count:
@@ -55,7 +54,7 @@ int main(int argc, char** argv, char *envp[]){
         if(result == NULL && ferror(stdin)){
             errExit("Error reading from stdin using fgets!");
         }
-        
+
         if(!feof(stdin)){
             // Check for content to parse:
             if(buffer[0] != 0){
