@@ -90,57 +90,6 @@ void printStrings(char** strs){
     printf("\n");
 }
 
-// Return: array of substrings found (within single or double quotes)
-char** subStrings(char* buffer, const char* sep){
-    int index = indexOf(buffer, sep);
-    if(index == -1){
-        return NULL;
-    }
-    char* buf = (char*)(malloc(sizeof(char)*(strlen(buffer)+1)));
-    strcpy(buf, buffer);
-
-    dbgPrint("Substring buffer copied: '%s'", buf);
-    char* movbuf = buf;
-    const int MAX_SUBSTRINGS = 16;
-    char* substrs[MAX_SUBSTRINGS+1];
-    int subCounter = 0;
-
-    int length = 0;
-    while(subCounter < MAX_SUBSTRINGS){
-        const char thisSep[] = {buf[index], 0};
-        ++index;
-        movbuf += index;
-        length = indexOf(movbuf, thisSep);
-        if(length == -1){
-            length = strlen(movbuf);
-        }
-        substrs[subCounter++] = movbuf;
-        movbuf += length;
-        movbuf[0] = 0;
-        ++movbuf;
-        index = indexOf(movbuf, sep);
-        if(index == -1){
-            break;
-        }
-    }
-    substrs[subCounter] = NULL;
-
-    char** ret = malloc(sizeof(char*)*(subCounter+1));
-    int subCounter2 = 0;
-    char* from = NULL;
-    while(subCounter2 < subCounter){
-        from = substrs[subCounter2];
-        ret[subCounter2] = malloc(sizeof(char)*(sizeof(from)+1));
-        strcpy(ret[subCounter2], from);
-        ++subCounter2;
-    }
-    ret[subCounter2] = NULL;
-
-    free(buf);
-    buf = 0;
-    return ret;
-}
-
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)
