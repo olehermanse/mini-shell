@@ -6,6 +6,8 @@
 #include <unistd.h>     // chdir()
 
 #include <string.h>     // strtok(), strcpy(), strcmp()...
+#include <sys/stat.h>   // stat()
+#include <stdbool.h>    // bool
 //#include <ctype.h>
 //#include <sys/types.h>
 
@@ -17,24 +19,11 @@
 #define NULL 0
 #endif
 
-#ifndef FALSE
-#define FALSE 0
-#endif
-
-#ifndef TRUE
-#define TRUE 1
-#endif
-
-#ifndef BOOL
-#define BOOL char
-#endif
-
-typedef enum { false=0, true=1 } bool;
-
 
 typedef enum {  BI_NONE, BI_CHDIR, BI_EXIT }         builtinCmd;
 
 typedef enum {  STATUS_SUCCESS=0, STATUS_FAILURE,
+                STATUS_OK,
                 STATUS_EXIT, STATUS_UNRECOGNIZED }   returnStatus;
 
 #endif // __DEFINITIONS_H__
