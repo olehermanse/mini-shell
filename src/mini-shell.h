@@ -10,4 +10,9 @@
 // Return: int returnStatus from called function(s) (See enum in definitions.h)
 int processCmd(char* buffer, char* envp[], int* fds);
 
+// If |'s are present in buffer, call commands sequentially and
+// pipe their IO together.
+// return: returnStatus
+int pipeCmds(char* buffer, char* envp[]);
+
 #endif // __MINI_SHELL__

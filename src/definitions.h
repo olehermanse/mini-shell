@@ -11,7 +11,7 @@
 //#include <ctype.h>
 //#include <sys/types.h>
 
-//#include <sys/wait.h>
+#include <sys/wait.h>   // waitpid(), pid_t
 //#include <time.h>
 #include <assert.h>     // assert()
 

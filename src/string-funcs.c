@@ -101,7 +101,6 @@ char** splitString(char* buffer, const char* sep, const char* substrsyms){
     char* tokens[MAX_TOKENS+1];
     int index = 0;
 
-
     // Parse string, saved tokens point directly to buffer:
     char* token = strtok(buffer, sep);
     const char SINGLE_QUOTE[] = "\'";
@@ -130,6 +129,5 @@ char** splitString(char* buffer, const char* sep, const char* substrsyms){
         ++index;
     }
     returnTokens[index] = NULL; // NULL terminated array
-    printStrings(returnTokens);
     return returnTokens;
 }
