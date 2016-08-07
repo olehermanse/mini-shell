@@ -19,6 +19,16 @@
 #define NULL 0
 #endif
 
+// DEBUG PRINT MACRO
+#ifdef DEBUG
+#define dbgPrint(fmt, args...) printf(fmt, ## args)
+#else
+#define dbgPrint(fmt, args...)
+#endif
+
+// ERROR-MESSAGE + EXIT MACRO
+#define errExit(fmt, args...) {fprintf(stderr, fmt, ## args); exit(EXIT_FAILURE);}
+#define errPrint(fmt, args...) fprintf(stderr, fmt, ## args)
 
 typedef enum {  BI_NONE, BI_CHDIR, BI_EXIT }         builtinCmd;
 

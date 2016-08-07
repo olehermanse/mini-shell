@@ -5,19 +5,19 @@
 // Return: int returnStatus (See enum in definitions.h)
 int parentResult(pid_t pid1, pid_t pid2, int status){
     if(pid1 != pid2){
-        printf("Problem with fork: pids %i != %i.\n", pid1, pid2);
+        errPrint("Problem with fork: pids %i != %i.\n", pid1, pid2);
         return STATUS_OK;
     }
     if (WIFEXITED(status)){
         return STATUS_SUCCESS;
     }else if (WIFSIGNALED(status)){
-        printf("fork: Child ended because of an uncaught signal.\n");
+        errPrint("fork: Child ended because of an uncaught signal.\n");
         return STATUS_OK;
     }else if (WIFSTOPPED(status)){
-        printf("fork: Child process has stopped.\n");
+        errPrint("fork: Child process has stopped.\n");
         return STATUS_OK;
     }
-    printf("fork: Unknown error!");
+    errPrint("fork: Unknown error!");
     return STATUS_OK;
 }
 
@@ -50,7 +50,7 @@ int forkExecNoWait(char* path, char** argv, int argc, char* envp[]){
         pid2 = waitpid(pid, &status, 0);
         return parentResult(pid, pid2, status);
     }
-    printf("Problem with fork: Returned %i.\n", pid);
+    errPrint("Problem with fork: Returned %i.\n", pid);
     return STATUS_OK;
 }
 
@@ -69,7 +69,7 @@ int forkExecWait(char* path, char** argv, int argc, char *envp[]){
         pid2 = waitpid(pid, &status, 0);
         return parentResult(pid, pid2, status);
     }
-    printf("Problem with fork: Returned %i.\n", pid);
+    errPrint("Problem with fork: Returned %i.\n", pid);
     return STATUS_OK;
 }
 

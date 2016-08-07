@@ -36,7 +36,7 @@ int builtinChangeDir(char** words){
     int rval = chdir(words[1]);
     if(rval == 0)
         return STATUS_SUCCESS;
-    printf("Folder not found: '%s'\n", words[1]);
+    errPrint("Folder not found: '%s'\n", words[1]);
     return STATUS_OK;
 }
 

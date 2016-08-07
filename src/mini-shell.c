@@ -25,6 +25,8 @@ int processCmd(char* buffer, char* envp[]){
 // Main function sets up permanent variables and runs a main loop
 // prompting for and processing input from stdin
 int main(int argc, char** argv, char *envp[]){
+    dbgPrint("Debug print enabled.\n");
+
     // Main buffer used for input:
     const int MAX_INPUT_SIZE = 255;
     char buffer[MAX_INPUT_SIZE];
@@ -41,6 +43,7 @@ int main(int argc, char** argv, char *envp[]){
 
     // Count # of commands entered (i.e. number of enter presses):
     int cmdCounter = 0;
+    bool eof = false;
 
     // Main program loop:
     while(result){
@@ -49,12 +52,17 @@ int main(int argc, char** argv, char *envp[]){
 
         // Store user input in buffer before parsing:
         result = fgets(buffer, MAX_INPUT_SIZE, stdin);
-
-        // Check for content to parse:
-        if(buffer[0] != 0){
-            int cmdResult = processCmd(buffer, envp);
-            if(cmdResult == STATUS_EXIT){
-                result = 0;
+        if(result == NULL && ferror(stdin)){
+            errExit("Error reading from stdin using fgets!");
+        }
+        
+        if(!feof(stdin)){
+            // Check for content to parse:
+            if(buffer[0] != 0){
+                int cmdResult = processCmd(buffer, envp);
+                if(cmdResult == STATUS_EXIT){
+                    result = 0;
+                }
             }
         }
 

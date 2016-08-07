@@ -4,9 +4,6 @@
 // Return: NULL pointer for assignment.
 void ** freeArray(void ** pointerArray){
     assert(pointerArray);
-    if(pointerArray == NULL){
-        return NULL;
-    }
     for( int i = 0; pointerArray[i] != 0; ++i){
         free(pointerArray[i]);
         pointerArray[i] = NULL;
@@ -22,9 +19,6 @@ void ** freeArray(void ** pointerArray){
 // mallocs: all strings as well as array.
 char** strcpyArray(char** strings){
     assert(strings);
-    if(strings == NULL){
-        return NULL;
-    }
     int count = 0;
     while(strings[count++]);
     char** newArray = malloc(sizeof(char*)*count);
@@ -41,6 +35,7 @@ char** strcpyArray(char** strings){
 // Counts words in null terminated array(/pointer)
 // Return: count of words(excluding null terminator)
 int wordCount(char** words){
+    assert(words);
     int count = 0;
     while(words[count]){
         ++count;
@@ -54,9 +49,6 @@ int wordCount(char** words){
 char** splitString(char* buffer, const char* sep){
     assert(buffer);
     assert(sep);
-    if(buffer == NULL || sep == NULL){
-        return NULL;
-    }
 
     const int MAX_TOKENS = 31;
     char* tokens[MAX_TOKENS+1];
