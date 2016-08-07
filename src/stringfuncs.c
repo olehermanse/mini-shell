@@ -1,5 +1,20 @@
 #include "stringfuncs.h"
 
+// Loops through null terminated string and replaces all occurences
+// of "match" with "replace"
+// Return: no. of characters replaced
+int strReplace(char* str, char match, char replace){
+    assert(str);
+    int count = 0;
+    for(int i = 0; str[i] != 0; ++i){
+        if (str[i] == match) {
+            str[i] = replace;
+            ++count;
+        }
+    }
+    return count;
+}
+
 // Loop to free all cstrings in array of cstrings as well as array itself.
 // Return: NULL pointer for assignment.
 void ** freeArray(void ** pointerArray){

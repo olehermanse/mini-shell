@@ -3,7 +3,7 @@
 // Processes a query by splitting and attempting to run built in or
 // external command.
 // Return: int returnStatus from called function(s) (See enum in definitions.h)
-int processCmd(char* buffer, char* envp[]){
+int processCmd(char* buffer, char* envp[], int* fds){
     assert(buffer);
 
     char** argv = splitString(buffer, " \t\n\v\f\r");
@@ -13,13 +13,49 @@ int processCmd(char* buffer, char* envp[]){
         return STATUS_SUCCESS;
     }
 
-    int cmdResult = processBuiltinCmd(argv);
+    int cmdResult = processBuiltinCmd(argv, fds);
     if(cmdResult == STATUS_UNRECOGNIZED){
-        cmdResult = processExternalCmd(argv, num, envp);
+        cmdResult = processExternalCmd(argv, num, envp, fds);
     }
     free((void**)(argv));
     argv = NULL;
     return cmdResult;
+}
+
+int pipeCmds(char* buffer, char* envp[]){
+    /*int newlines = */strReplace(buffer, '\n', 0);
+    char** commands = splitString(buffer, "|");
+    int num = wordCount(commands);
+
+    if(num == 0){
+        return STATUS_SUCCESS;
+    }
+    if(num == 1){
+        int cmdResult = processCmd(commands[0], envp, NULL);
+        free(commands);
+        commands = 0;
+        return cmdResult;
+    }
+
+    int newPipe[2] = {0,0};
+    int fd[2];
+    int index;
+    for(index = 0; index < num - 1; ++index){
+        fd[0] = newPipe[0];
+        pipe(newPipe);
+        fd[1] = newPipe[1];
+        processCmd(commands[index], envp, fd);
+        if(index > 0)
+            close(fd[0]);
+        close(fd[1]);
+    }
+    fd[0] = newPipe[0];
+    fd[1] = 1;
+    processCmd(commands[index], envp, fd);
+    close(fd[0]);
+    free(commands);
+    commands = 0;
+    return STATUS_SUCCESS;
 }
 
 // Main function sets up permanent variables and runs a main loop
@@ -43,22 +79,35 @@ int main(int argc, char** argv, char *envp[]){
 
     // Count # of commands entered (i.e. number of enter presses):
     int cmdCounter = 0;
-    
+
     // Main program loop:
     while(result){
         // Print prompt with username and increasing command count:
         printf("%s@mini-shell %i> ", user, cmdCounter);
 
         // Store user input in buffer before parsing:
-        result = fgets(buffer, MAX_INPUT_SIZE, stdin);
+        int c = fgetc(stdin);
+        int i = 0;
+        buffer[i++] = c;
+        while( c != '\n' && c != EOF && c != 0){
+            buffer[i++] = c = fgetc(stdin);
+        }
+        if( c == EOF ){
+            result = 0;
+        }
+        if( c == 0 ){
+            buffer[i] = 0;
+        }
+
         if(result == NULL && ferror(stdin)){
             errExit("Error reading from stdin using fgets!");
         }
 
+
         if(!feof(stdin)){
             // Check for content to parse:
             if(buffer[0] != 0){
-                int cmdResult = processCmd(buffer, envp);
+                int cmdResult = pipeCmds(buffer, envp);
                 if(cmdResult == STATUS_EXIT){
                     result = 0;
                 }

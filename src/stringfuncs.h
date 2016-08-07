@@ -3,6 +3,11 @@
 
 #include "definitions.h"
 
+// Loops through null terminated string and replaces all occurences
+// of "match" with "replace"
+// Return: no. of characters replaced
+int strReplace(char* str, char match, char replace);
+
 // Loop to free all cstrings in array of cstrings as well as array itself.
 // Return: NULL pointer for assignment.
 void ** freeArray(void ** pointerArray);

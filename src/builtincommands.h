@@ -14,6 +14,6 @@ int builtinChangeDir(char** words);
 
 // Entry point for built in commands. Switch selects cd, exit or unrecognized
 // Return: int returnStatus (See enum in definitions.h)
-int processBuiltinCmd(char** words);
+int processBuiltinCmd(char** words, int* fds);
 
 #endif // __BUILTIN_COMMANDS_H__

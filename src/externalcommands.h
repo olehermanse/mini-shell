@@ -10,15 +10,15 @@ int parentResult(pid_t pid1, pid_t pid2, int status);
 
 // Fork and execve, don't wait, exit. Used to get rid of zombie processes.
 // Parent waits for this process. Resulting in orphan child process.
-void secondFork(char* path, char** argv, int argc, char* envp[]);
+int secondFork(char* path, char** argv, int argc, char* envp[], int* fds);
 
 // Ampersand & - Fork and execve without waiting for child process to finish
 // Return: int returnStatus (See enum in definitions.h)
-int forkExecNoWait(char* path, char** argv, int argc, char* envp[]);
+int forkExecNoWait(char* path, char** argv, int argc, char* envp[], int* fds);
 
 // Regular fork execve (no &)
 // Return: int returnStatus (See enum in definitions.h)
-int forkExecWait(char* path, char** argv, int argc, char *envp[]);
+int forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds);
 
 // Check if there is an executable at path
 // Return: bool true if executable
@@ -31,6 +31,6 @@ int findExecutable(char* name, char* pathOutput);
 // Searches for an executable, forks and executes
 // Doesn't wait for child if & is found
 // Return: returnStatus from called function(s)
-int processExternalCmd(char** argv, int num, char* envp[]);
+int processExternalCmd(char** argv, int num, char* envp[], int* fds);
 
 #endif // __EXTERNAL_COMMANDS_H__

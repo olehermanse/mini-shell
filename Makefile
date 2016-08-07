@@ -32,7 +32,10 @@ COMPILE = $(CC) $(DEPFLAGS) $(CFLAGS) -c
 # Move temporary generated dependecies to permanent location post-compilation:
 POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
 
-run: bin/mini-shell
+test: debug
+	echo "echo Hello | rev" | ./bin/mini-shell
+
+run: debug
 	./bin/mini-shell
 
 # Executable depends on all .o files:
@@ -59,7 +62,7 @@ clean:
 valgrind: debug
 	valgrind --tool=memcheck --leak-check=full ./bin/mini-shell
 
-.PHONY: clean run debug release valgrind
+.PHONY: clean run debug release valgrind test
 
 $(DEPDIR)/%.d: ;
 .PRECIOUS: $(DEPDIR)/%.d bin/mini-shell

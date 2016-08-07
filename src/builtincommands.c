@@ -42,7 +42,7 @@ int builtinChangeDir(char** words){
 
 // Entry point for built in commands. Switch selects cd, exit or unrecognized
 // Return: int returnStatus (See enum in definitions.h)
-int processBuiltinCmd(char** words){
+int processBuiltinCmd(char** words, int* fds){
     switch (builtinSwitch(words[0])){
         case BI_CHDIR:
             return builtinChangeDir(words);
