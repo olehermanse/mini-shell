@@ -9,7 +9,27 @@
 
 **License:** The MIT License
 
+## Building and running
+### Makefile
+Use Makefile for building different versions.
+```
+make debug
+or
+make release
+```
+### Run binary
+Binary path is bin/mini-shell. Run using make or directly:
+```
+make run
+or
+./bin/mini-shell
+```
+
 ## Functionality
+### Fork exec programs
+mini-shell uses fork + execve to "securely" run programs. If the specified command isn't a shell built-in it searches for an executable:
+* In the current working directory
+* If not found, all paths specified in PATH environment variable are searched.
 ### Built-in commands
 #### Change dir
 ```
