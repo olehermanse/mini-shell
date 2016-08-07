@@ -13,6 +13,7 @@ int processCmd(char* buffer, char* envp[], int* fds){
         return STATUS_SUCCESS;
     }
 
+    // Attempt to run built in command, then search path for executable:
     int cmdResult = processBuiltinCmd(argv, fds);
     if(cmdResult == STATUS_UNRECOGNIZED){
         cmdResult = processExternalCmd(argv, num, envp, fds);
@@ -22,14 +23,20 @@ int processCmd(char* buffer, char* envp[], int* fds){
     return cmdResult;
 }
 
+
+// If |'s are present in buffer, call commands sequentially and
+// pipe their IO together.
+// return: returnStatus
 int pipeCmds(char* buffer, char* envp[]){
     /*int newlines = */strReplace(buffer, '\n', 0);
     char** commands = splitString(buffer, "|");
     int num = wordCount(commands);
 
+    // No command, do nothing:
     if(num == 0){
         return STATUS_SUCCESS;
     }
+    // Regular command, no pipes:
     if(num == 1){
         int cmdResult = processCmd(commands[0], envp, NULL);
         free(commands);
@@ -37,22 +44,32 @@ int pipeCmds(char* buffer, char* envp[]){
         return cmdResult;
     }
 
+    // Iterate through num commands, creating num-1 pipes
     int newPipe[2] = {0,0};
     int fd[2];
     int index;
     for(index = 0; index < num - 1; ++index){
+        // Each child process gets 1 "old" and 1 "new" pipe fd:
         fd[0] = newPipe[0];
         pipe(newPipe);
         fd[1] = newPipe[1];
+
+        // Fork exec the command, with given file descriptors:
         processCmd(commands[index], envp, fd);
+
+        // Close the file descriptors we are done with
         if(index > 0)
             close(fd[0]);
         close(fd[1]);
     }
+
+    // Last command/iteration, output is stdout, no new pipe:
     fd[0] = newPipe[0];
     fd[1] = 1;
     processCmd(commands[index], envp, fd);
     close(fd[0]);
+
+    // Cleanup:
     free(commands);
     commands = 0;
     return STATUS_SUCCESS;
@@ -86,23 +103,12 @@ int main(int argc, char** argv, char *envp[]){
         printf("%s@mini-shell %i> ", user, cmdCounter);
 
         // Store user input in buffer before parsing:
-        int c = fgetc(stdin);
-        int i = 0;
-        buffer[i++] = c;
-        while( c != '\n' && c != EOF && c != 0){
-            buffer[i++] = c = fgetc(stdin);
-        }
-        if( c == EOF ){
-            result = 0;
-        }
-        if( c == 0 ){
-            buffer[i] = 0;
-        }
+        result = fgets(buffer, MAX_INPUT_SIZE, stdin);
+        // EOF causes result to be NULL and loop to stop.
 
         if(result == NULL && ferror(stdin)){
-            errExit("Error reading from stdin using fgets!");
+            errExit("Error reading from stdin using fgets!\n");
         }
-
 
         if(!feof(stdin)){
             // Check for content to parse:
@@ -113,7 +119,6 @@ int main(int argc, char** argv, char *envp[]){
                 }
             }
         }
-
         ++cmdCounter;
     }
     free(user);

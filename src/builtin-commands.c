@@ -1,4 +1,4 @@
-#include "builtincommands.h"
+#include "builtin-commands.h"
 
 // strcmp switch to select appropriate built in function
 // Return: int builtInCmd (See enum in definitions.h)

@@ -25,6 +25,6 @@ int wordCount(char** words);
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)
-char** splitString(char* buffer, const char* sep);
+char** splitString(char* buffer, const char* sep, const char* substrsyms);
 
 #endif // __STRING_FUNCS_H__

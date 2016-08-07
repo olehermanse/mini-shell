@@ -1,4 +1,4 @@
-#include "externalcommands.h"
+#include "external-commands.h"
 
 // Checks results from fork() and waitpid() system calls
 // Prints error message if needed and sets appropriate status
@@ -27,6 +27,14 @@ int secondFork(char* path, char** argv, int argc, char* envp[], int* fds){
     pid_t pid = fork();
     if(pid == 0){
         // Child:
+        if(fds){
+            // Redirect input:
+            if(fds[0] != 0)
+                dup2(fds[0], 0);
+            // Redirect output:
+            if(fds[1] != 1)
+                dup2(fds[1], 1);
+        }
         return execve(path, argv, envp);
     }else if(pid > 0){
         // Middle Parent (Exits immediately after fork()):
@@ -63,8 +71,10 @@ int forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds){
     if(pid == 0){
         // Child:
         if(fds){
+            // Redirect input:
             if(fds[0] != 0)
                 dup2(fds[0], 0);
+            // Redirect output:
             if(fds[1] != 1)
                 dup2(fds[1], 1);
         }
@@ -97,12 +107,6 @@ bool checkExecutable(char* path){
 int findExecutable(char* name, char* pathOutput){
     // Check for executable directly
     sprintf(pathOutput, "%s", name);
-    if(checkExecutable(pathOutput)){
-        return STATUS_SUCCESS;
-    }
-
-    // Check for executable in this folder:
-    sprintf(pathOutput, "./%s", name);
     if(checkExecutable(pathOutput)){
         return STATUS_SUCCESS;
     }

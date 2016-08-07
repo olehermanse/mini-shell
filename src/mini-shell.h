@@ -1,9 +1,9 @@
 #ifndef __MINI_SHELL__
 #define __MINI_SHELL__
 
-#include "stringfuncs.h"
-#include "builtincommands.h"
-#include "externalcommands.h"
+#include "string-funcs.h"
+#include "builtin-commands.h"
+#include "external-commands.h"
 
 // Processes a query by splitting and attempting to run built in or
 // external command.

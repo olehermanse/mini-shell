@@ -1,4 +1,4 @@
-#include "stringfuncs.h"
+#include "string-funcs.h"
 
 // Loops through null terminated string and replaces all occurences
 // of "match" with "replace"
@@ -61,7 +61,7 @@ int wordCount(char** words){
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)
-char** splitString(char* buffer, const char* sep){
+char** splitString(char* buffer, const char* sep, const char* substrsyms){
     assert(buffer);
     assert(sep);
 
