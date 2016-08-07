@@ -30,6 +30,8 @@ or
 mini-shell uses fork + execve to "securely" run programs. If the specified command isn't a shell built-in it searches for an executable:
 * In the current working directory
 * If not found, all paths specified in PATH environment variable are searched.
+
+
 ### Built-in commands
 #### Change dir
 ```
