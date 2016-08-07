@@ -1,9 +1,13 @@
 # mini-shell
 
 ## Information
-**Date:** 2016-08-08<br>
-**Author:** olehermanse ( http://www.github.com/olehermanse )<br>
-**License:** The MIT License<br>
+**Version:** 0.1
+
+**Date:** 2016-08-08
+
+**Author:** olehermanse ( http://www.github.com/olehermanse )
+
+**License:** The MIT License
 
 ## Functionality
 ### Built-in commands
@@ -42,9 +46,13 @@ A few assumptions about the input was made:
 
 All of these are arbitrarily picked integer constants and can be easily changed.
 
+## Compatibilty / Testing
+Tested on OS X 10.11.6 and Red Hat Enterprise Linux Server release 6.8 (Santiago).
+
 ## Issues
 ### & and | (Do not wait and pipe)
 Not designed or tested for use together.
+
 ### Quote strings support
 Single or double quoted strings don't behave exactly as expected. See example below.
 
@@ -72,3 +80,4 @@ bool checkExecutable(char* path);
 * Handle arrow key inputs
 * Other redirection operators: <, <<, >, >>, <&, >&
 * Custom string parse/split would be better than strtok, specifically for quoted string support.
+* Forks and pipes could be done better and more elegantly.
