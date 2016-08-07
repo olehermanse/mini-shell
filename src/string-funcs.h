@@ -22,6 +22,15 @@ char** strcpyArray(char** strings);
 // Return: count of words(excluding null terminator)
 int wordCount(char** words);
 
+// Return: int index of first of any character from chars in str
+int indexOf(char* str, const char* chars);
+
+// Prints an  array of strings
+void printStrings(char** strs);
+
+// Return: array of substrings found (within single or double quotes)
+char** subStrings(char* buffer, const char* sep);
+
 // Parses a string using strtok. String is split into tokens("words")
 // Return: null terminated array(pointer) of cstrings.
 // mallocs: array pointer only (strings point directly to buffer)
