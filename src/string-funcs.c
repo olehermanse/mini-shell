@@ -97,7 +97,7 @@ char** splitString(char* buffer, const char* sep, const char* substrsyms){
     assert(buffer);
     assert(sep);
 
-    const int MAX_TOKENS = 31;
+    const int MAX_TOKENS = 25;
     char* tokens[MAX_TOKENS+1];
     int index = 0;
 
