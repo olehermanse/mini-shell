@@ -92,6 +92,7 @@ int forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds){
 // Check if there is an executable at path
 // Return: bool true if executable
 bool checkExecutable(char* path){
+    assert(path);
     struct stat sb;
     int result = stat(path, &sb);
     if(result == 0){
@@ -106,7 +107,9 @@ bool checkExecutable(char* path){
 // Return: STATUS_SUCCESS if executable found, STATUS_FAILURE otherwise
 int findExecutable(char* name, char* pathOutput){
     // Check for executable directly
-    sprintf(pathOutput, "%s", name);
+    int res = 0;
+    res = sprintf(pathOutput, "%s", name);
+    assert(res >= 0);
     if(checkExecutable(pathOutput)){
         return STATUS_SUCCESS;
     }
@@ -118,13 +121,15 @@ int findExecutable(char* name, char* pathOutput){
 
     // Parse PATH using strtok
     char* token = strtok(pathVar, ":");
-    sprintf(pathOutput, "%s/%s", token, name);
+    res = sprintf(pathOutput, "%s/%s", token, name);
+    assert(res >= 0);
     if(checkExecutable(pathOutput)){
         return STATUS_SUCCESS;
     }
     while(token){
         token = strtok(NULL, ":");
-        sprintf(pathOutput, "%s/%s", token, name);
+        res = sprintf(pathOutput, "%s/%s", token, name);
+        assert(res >= 0);
         if(checkExecutable(pathOutput)){
             return STATUS_SUCCESS;
         }
@@ -139,6 +144,7 @@ int processExternalCmd(char** argv, int num, char* envp[], int* fds){
     bool willWait = true;
 
     char* lastArgument = argv[num-1];
+    assert(lastArgument);
     int length = strlen(lastArgument);
     if(lastArgument[length-1] == '&'){
         lastArgument[length-1] = 0;

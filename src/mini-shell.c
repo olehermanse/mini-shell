@@ -28,7 +28,7 @@ int processCmd(char* buffer, char* envp[], int* fds){
 // pipe their IO together.
 // return: returnStatus
 int pipeCmds(char* buffer, char* envp[]){
-    /*int newlines = */strReplace(buffer, '\n', 0);
+    strReplace(buffer, '\n', 0);
     char** commands = splitString(buffer, "|", "");
     int num = wordCount(commands);
 
