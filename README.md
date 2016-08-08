@@ -97,6 +97,17 @@ Unrecognized command: ' grep'
 olehermanse@mini-shell 17> cat src/external-commands.h | grep bool
 bool checkExecutable(char* path);
 ```
+### Makefile
+Dependencies are suboptimal. Individual c files don't have individual
+header dependecies. Changing a header will force a full compile of all objects.
+Additionally, make clean is needed before switching from debug to release
+builds:
+ ```
+make debug
+make clean
+make release
+ ```
+
 ## Not Implemented / Improvements
 * Shell built-ins like alias, history etc...
 * Handle arrow key inputs
