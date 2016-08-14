@@ -3,27 +3,27 @@
 // Checks results from fork() and waitpid() system calls
 // Prints error message if needed and sets appropriate status
 // Return: int returnStatus (See enum in definitions.h)
-int parentResult(pid_t pid1, pid_t pid2, int status){
+en_status parentResult(pid_t pid1, pid_t pid2, int status){
     if(pid1 != pid2){
         errPrint("Problem with fork: pids %i != %i.\n", pid1, pid2);
-        return STATUS_OK;
+        return STATUS_SOFT_FAILURE;
     }
     if (WIFEXITED(status)){
         return STATUS_SUCCESS;
     }else if (WIFSIGNALED(status)){
         errPrint("fork: Child ended because of an uncaught signal.\n");
-        return STATUS_OK;
+        return STATUS_SOFT_FAILURE;
     }else if (WIFSTOPPED(status)){
         errPrint("fork: Child process has stopped.\n");
-        return STATUS_OK;
+        return STATUS_SOFT_FAILURE;
     }
     errPrint("fork: Unknown error!");
-    return STATUS_OK;
+    return STATUS_SOFT_FAILURE;
 }
 
 // Fork and execve, don't wait, exit. Used to get rid of zombie processes.
 // Parent waits for this process. Resulting in orphan child process.
-int secondFork(char* path, char** argv, int argc, char* envp[], int* fds){
+en_status secondFork(char* path, char** argv, int argc, char* envp[], int* fds){
     pid_t pid = fork();
     if(pid == 0){
         // Child:
@@ -46,7 +46,7 @@ int secondFork(char* path, char** argv, int argc, char* envp[], int* fds){
 
 // Ampersand & - Fork and execve without waiting for child process to finish
 // Return: int returnStatus (See enum in definitions.h)
-int forkExecNoWait(char* path, char** argv, int argc, char* envp[], int* fds){
+en_status forkExecNoWait(char* path, char** argv, int argc, char* envp[], int* fds){
     int status;
     pid_t pid = fork();
     if(pid == 0){
@@ -59,12 +59,12 @@ int forkExecNoWait(char* path, char** argv, int argc, char* envp[], int* fds){
         return parentResult(pid, pid2, status);
     }
     errPrint("Problem with fork: Returned %i.\n", pid);
-    return STATUS_OK;
+    return STATUS_SOFT_FAILURE;
 }
 
 // Regular fork execve (no &)
 // Return: int returnStatus (See enum in definitions.h)
-int forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds){
+en_status forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds){
     int status = 0;
 
     pid_t pid = fork();
@@ -86,7 +86,7 @@ int forkExecWait(char* path, char** argv, int argc, char *envp[], int* fds){
         return parentResult(pid, pid2, status);
     }
     errPrint("Problem with fork: Returned %i.\n", pid);
-    return STATUS_OK;
+    return STATUS_SOFT_FAILURE;
 }
 
 // Check if there is an executable at path
@@ -105,7 +105,7 @@ bool checkExecutable(char* path){
 
 // Searches working working directory and directories in PATH for executable
 // Return: STATUS_SUCCESS if executable found, STATUS_FAILURE otherwise
-int findExecutable(char* name, char* pathOutput){
+en_status findExecutable(char* name, char* pathOutput){
     // Check for executable directly
     int res = 0;
     res = sprintf(pathOutput, "%s", name);
@@ -140,7 +140,7 @@ int findExecutable(char* name, char* pathOutput){
 // Searches for an executable, forks and executes
 // Doesn't wait for child if & is found
 // Return: returnStatus from called function(s)
-int processExternalCmd(char** argv, int num, char* envp[], int* fds){
+en_status processExternalCmd(char** argv, int num, char* envp[], int* fds){
     bool willWait = true;
 
     char* lastArgument = argv[num-1];
@@ -155,7 +155,7 @@ int processExternalCmd(char** argv, int num, char* envp[], int* fds){
         willWait = false;
     }
     char fullPath[256];
-    int cmdResult = findExecutable(argv[0], fullPath);
+    en_status cmdResult = findExecutable(argv[0], fullPath);
     if(cmdResult == STATUS_SUCCESS){
         if(willWait){
             cmdResult = forkExecWait(fullPath, argv, num, envp, fds);

@@ -8,11 +8,11 @@
 // Processes a query by splitting and attempting to run built in or
 // external command.
 // Return: int returnStatus from called function(s) (See enum in definitions.h)
-int processCmd(char* buffer, char* envp[], int* fds);
+en_status processCmd(char* buffer, char* envp[], int* fds);
 
 // If |'s are present in buffer, call commands sequentially and
 // pipe their IO together.
 // return: returnStatus
-int pipeCmds(char* buffer, char* envp[]);
+en_status pipeCmds(char* buffer, char* envp[]);
 
 #endif // __MINI_SHELL__

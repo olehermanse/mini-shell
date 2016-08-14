@@ -3,7 +3,7 @@
 // Processes a query by splitting and attempting to run built in or
 // external command.
 // Return: int returnStatus from called function(s) (See enum in definitions.h)
-int processCmd(char* buffer, char* envp[], int* fds){
+en_status processCmd(char* buffer, char* envp[], int* fds){
     assert(buffer);
 
     char** argv = splitString(buffer, " \t\n\v\f\r", "\"\'");
@@ -14,7 +14,7 @@ int processCmd(char* buffer, char* envp[], int* fds){
     }
 
     // Attempt to run built in command, then search path for executable:
-    int cmdResult = processBuiltinCmd(argv, fds);
+    en_status cmdResult = processBuiltinCmd(argv, fds);
     if(cmdResult == STATUS_UNRECOGNIZED){
         cmdResult = processExternalCmd(argv, num, envp, fds);
     }
@@ -27,7 +27,7 @@ int processCmd(char* buffer, char* envp[], int* fds){
 // If |'s are present in buffer, call commands sequentially and
 // pipe their IO together.
 // return: returnStatus
-int pipeCmds(char* buffer, char* envp[]){
+en_status pipeCmds(char* buffer, char* envp[]){
     strReplace(buffer, '\n', 0);
     char** commands = splitString(buffer, "|", "");
     int num = wordCount(commands);

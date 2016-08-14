@@ -30,10 +30,10 @@
 #define errExit(fmt, args...) {fprintf(stderr, fmt, ## args); exit(EXIT_FAILURE);}
 #define errPrint(fmt, args...) fprintf(stderr, fmt, ## args)
 
-typedef enum {  BI_NONE, BI_CHDIR, BI_EXIT }         builtinCmd;
+typedef enum {  BI_NONE, BI_CHDIR, BI_EXIT }         en_builtin;
 
 typedef enum {  STATUS_SUCCESS=0, STATUS_FAILURE,
-                STATUS_OK,
-                STATUS_EXIT, STATUS_UNRECOGNIZED }   returnStatus;
+                STATUS_SOFT_FAILURE, // "Soft" failure
+                STATUS_EXIT, STATUS_UNRECOGNIZED }   en_status;
 
 #endif // __DEFINITIONS_H__
