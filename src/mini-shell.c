@@ -81,14 +81,19 @@ int main(int argc, char** argv, char *envp[]){
     dbgPrint("Debug print enabled.\n");
 
     // Main buffer used for input:
-    const int MAX_INPUT_SIZE = 255;
     char buffer[MAX_INPUT_SIZE];
 
     // Get username from environment variable:
-    char* user = NULL;
-    strcpy(buffer,getenv("USER"));
+    char defaultUser[] = "username";
+    char* user = getenv("USER");
+    if(user == 0){
+        user = defaultUser;
+    }
+    strcpy(buffer,user);
     user = (char*)malloc(strlen(buffer)+1);
-    assert(user);
+    if(user == NULL){
+        errExit("Could not allocate username string.");
+    }
     strcpy(user, buffer);
 
     // Return value from fgets (check for EOF/error):

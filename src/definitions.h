@@ -36,4 +36,8 @@ typedef enum {  STATUS_SUCCESS=0, STATUS_FAILURE,
                 STATUS_SOFT_FAILURE, // "Soft" failure
                 STATUS_EXIT, STATUS_UNRECOGNIZED }   en_status;
 
+
+static const int MAX_PATH_SIZE = 1024;
+static const int MAX_INPUT_SIZE = 255;
+
 #endif // __DEFINITIONS_H__

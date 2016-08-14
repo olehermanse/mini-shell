@@ -116,7 +116,7 @@ en_status findExecutable(char* name, char* pathOutput){
 
     // Get copy of PATH environment variable:
     const char* PATH = getenv("PATH");
-    char pathVar[512];
+    char pathVar[MAX_PATH_SIZE];
     strcpy(pathVar, PATH);
 
     // Parse PATH using strtok

@@ -112,5 +112,6 @@ make release
 * Shell built-ins like alias, history etc...
 * Handle arrow key inputs
 * Other redirection operators: <, <<, >, >>, <&, >&
-* Custom string parse/split would be better than strtok, specifically for quoted string support.
+* Custom string parse/split would be better than strtok, especially for quoted
+string support.
 * Forks and pipes could be done better and more elegantly.
